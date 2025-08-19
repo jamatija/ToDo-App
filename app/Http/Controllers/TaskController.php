@@ -11,9 +11,22 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::orderBy('created_at', 'desc')->get();
+        $query = Task::query();
+
+        if($request->filled('status')){
+            $query->where('status', $request->status);
+        }
+
+        if($request->sort === 'oldest'){
+            $query->orderBy('created_at', 'asc');
+        }else {
+             $query->orderBy('created_at', 'desc');
+        }
+
+        $tasks = $query->get();
+
         return view('tasks.index', compact('tasks'));
     }
 

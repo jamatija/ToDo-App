@@ -19,10 +19,44 @@
 <section class="flex flex-col">
     <h1 class="text-6xl font-bold text-[#ffb703]">All tasks</h1>
 
-    <div class="flex items-center gap-3 flex-row mt-10">
-        <a href="{{ route('tasks.create') }}" class="text-white flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="hover:text-[#ffb703] text-white fill-current transition-all duration-300" height="34px" viewBox="0 -960 960 960" width="34px"><path d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
-        </svg></a> <p class="text-white">Create task</p>
+    <div class="flex items-center justify-between gap-3 flex-row mt-10">
+        <div class="flex items-center gap-2">
+            <a href="{{ route('tasks.create') }}" class="text-white flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="hover:text-[#ffb703] text-white fill-current transition-all duration-300" height="34px" viewBox="0 -960 960 960" width="34px"><path d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
+            </svg></a> <p class="text-white">Create task</p>
+        </div>
+
+        <div class="bg-white">
+            <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="flex items-baseline justify-between border-b border-gray-200 pt-6 pb-4">
+                    <form method="GET" class="flex items-center gap-4">
+                        <!-- Sort dropdown -->
+                        <div class="relative">
+                            <label for="sort" class="sr-only">Sort</label>
+                            <select id="sort" name="sort" class="rounded-md border-gray-300 text-sm"
+                                    onchange="this.form.submit()">
+                                <option value="newest" {{ request('sort') === 'newest' ? 'selected' : '' }}>Newest</option>
+                                <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Oldest</option>
+                            </select>
+                        </div>
+
+                        <!-- Status dropdown -->
+                        <div class="relative">
+                            <label for="status" class="sr-only">Status</label>
+                            <select id="status" name="status" class="rounded-md border-gray-300 text-sm"
+                                    onchange="this.form.submit()">
+                                <option value="">All</option>
+                                <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Not started</option>
+                                <option value="in_progress" {{ request('status') === 'in_progress' ? 'selected' : '' }}>In progress</option>
+                                <option value="completed" {{ request('status') === 'completed' ? 'selected' : '' }}>Completed</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </main>
+
+        </div>
     </div>
+
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 mt-8">
         @foreach ($tasks as $t)
