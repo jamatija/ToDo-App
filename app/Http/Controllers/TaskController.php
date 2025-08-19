@@ -59,9 +59,27 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Task $task)
     {
-        //
+
+        if($task->status === 'pending'){
+            $task->update([
+                'status' => 'in_progress'
+            ]);
+
+            return redirect()->route('tasks.index')->with('success', 'Task started!');
+        }
+        elseif ($task->status === 'in_progress'){
+            $task->update([
+                'status' => 'completed'
+            ]);
+            return redirect()->route('tasks.index')->with('success', 'Task completed!');
+        }
+
+
+         return redirect()
+                ->route('tasks.index')
+                ->with('error', 'Task cannot be updated.');
     }
 
     /**

@@ -14,16 +14,35 @@
             Created: {{ $task->created_at->translatedFormat('d. F Y') }}
         </p>
 
-        <p class="mt-2">
-            Status: 
-            @if ($task->status === "completed")
-                <span class="text-green-400">Completed</span>
+        <div class="flex justify-between items-center">
+            <p>
+                Status: 
+                @if ($task->status === "completed")
+                    <span class="text-green-400">Completed</span>
+                @elseif ($task->status === "in_progress")
+                    <span class="text-yellow-400">In progress</span>
+                @else
+                    <span class="text-gray-400">Not started</span>
+                @endif
+            </p>
+             @if ($task->status === "pending")
+                <form action="{{ route('tasks.update', $task) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <button class="px-4 py-2 bg-amber-500 rounded-2xl hover:bg-amber-300 cursor-pointer transition-all duration-300">
+                        Start task
+                    </button>
+                </form>
             @elseif ($task->status === "in_progress")
-                <span class="text-yellow-400">In progress</span>
-            @else
-                <span class="text-gray-400">Not started</span>
+                <form action="{{ route('tasks.update', $task) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <button class="px-4 py-2 bg-green-500 rounded-2xl hover:bg-green-300 cursor-pointer transition-all duration-300">
+                        Complete task
+                    </button>
+                </form>
             @endif
-        </p>
+        </div>
 
         <div class="mt-6 flex gap-4">
             <a href="{{ route('tasks.index') }}" class="text-blue-400 hover:underline">← Back</a>
