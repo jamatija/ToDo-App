@@ -8,3 +8,4 @@ Route::get('/', function () {
 });
 
 Route::resource('/tasks', TaskController::class);
+Route::put('/tasks/{task}/status', [TaskController::class, 'changeTaskStatus'])->name('tasks.changeStatus');

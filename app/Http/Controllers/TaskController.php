@@ -51,9 +51,9 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Task $task)
     {
-        //
+        return view('tasks.edit', compact('task'));
     }
 
     /**
@@ -61,27 +61,34 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+        
+        $validated = $request->validate([
+            'title' => 'string|max:255',
+            'description' => 'string',
+        ]);
 
-        if($task->status === 'pending'){
-            $task->update([
-                'status' => 'in_progress'
-            ]);
-
-            return redirect()->route('tasks.index')->with('success', 'Task started!');
-        }
-        elseif ($task->status === 'in_progress'){
-            $task->update([
-                'status' => 'completed'
-            ]);
-            return redirect()->route('tasks.index')->with('success', 'Task completed!');
-        }
+        $task->update($validated);
 
 
-         return redirect()
-                ->route('tasks.index')
-                ->with('error', 'Task cannot be updated.');
+
+       return redirect()
+            ->route('tasks.index')
+            ->with('success', 'Task updated successfully!');
     }
 
+
+    public function changeTaskStatus(Request $request, Task $task)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:pending,in_progress,completed'
+        ]);
+
+        $task->update(['status' => $validated['status']]);
+
+        return redirect()
+            ->route('tasks.index')
+            ->with('success', 'Task status updated');
+    }
     /**
      * Remove the specified resource from storage.
      */

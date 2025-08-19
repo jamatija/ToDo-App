@@ -25,27 +25,20 @@
                     <span class="text-gray-400">Not started</span>
                 @endif
             </p>
-             @if ($task->status === "pending")
-                <form action="{{ route('tasks.update', $task) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <button class="px-4 py-2 bg-amber-500 rounded-2xl hover:bg-amber-300 cursor-pointer transition-all duration-300">
-                        Start task
-                    </button>
-                </form>
-            @elseif ($task->status === "in_progress")
-                <form action="{{ route('tasks.update', $task) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <button class="px-4 py-2 bg-green-500 rounded-2xl hover:bg-green-300 cursor-pointer transition-all duration-300">
-                        Complete task
-                    </button>
-                </form>
-            @endif
+            <form action="{{ route('tasks.changeStatus', $task) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <select name="status" id="status" onchange="this.form.submit()">
+                    <option class="text-black" value="in_progress" {{ $task->status === "in_progress" ? 'selected' : ''}}>In progress</option>
+                    <option class="text-black" value="completed" {{ $task->status === "completed" ? 'selected' : ''}}>Completed</option>
+                    <option class="text-black" value="pending" {{ $task->status === "pending" ? 'selected' : ''}}>Not started</option>
+                </select>
+            </form>
         </div>
 
         <div class="mt-6 flex gap-4">
             <a href="{{ route('tasks.index') }}" class="text-blue-400 hover:underline">← Back</a>
+            <a href="{{ route('tasks.edit', $task) }}" class="text-green-200 hover:underline">Edit task</a>
 
             <form method="POST" action="{{ route('tasks.destroy', $task) }}">
                 @csrf
