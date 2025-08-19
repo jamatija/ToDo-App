@@ -16,10 +16,12 @@
 
         <p class="mt-2">
             Status: 
-            @if ($task->completed)
+            @if ($task->status === "completed")
                 <span class="text-green-400">Completed</span>
-            @else
+            @elseif ($task->status === "in_progress")
                 <span class="text-yellow-400">In progress</span>
+            @else
+                <span class="text-gray-400">Not started</span>
             @endif
         </p>
 
