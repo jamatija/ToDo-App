@@ -21,11 +21,11 @@
             </style>
         @endif
     </head>
-    <body class="bg-[#023047] flex p-6 lg:p-8 items-center justify-center min-h-screen">
+    <body class="bg-[#023047] py-14">
         <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
         </header>
 
-        <div class="container">
+        <div class="container mx-auto">
             @yield('content')
         </div>
 

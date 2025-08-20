@@ -22,6 +22,7 @@ class TaskFactory extends Factory
             'description' => $this->faker->paragraph(),
             'status' => $this->faker->randomElement(['pending', 'in_progress', 'completed']),
             'created_at' => $this->faker->dateTimeBetween('-30 days', 'now'),
+            'user_id' => 1,
         ];
     }
 }

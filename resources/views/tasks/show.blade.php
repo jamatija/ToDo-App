@@ -3,18 +3,18 @@
 @section('title', $task->title)
 
 @section('content')
-    <div class="max-w-2xl mx-auto p-6 bg-gray-900 text-white rounded-lg shadow-md">
-        <h1 class="text-2xl font-bold mb-4">{{ $task->title }}</h1>
+    <div class="max-w-2xl p-6 mx-auto text-white bg-gray-900 rounded-lg shadow-md">
+        <h1 class="mb-4 text-2xl font-bold">{{ $task->title }}</h1>
 
         @if ($task->description)
             <p class="mb-4 text-gray-300">{{ $task->description }}</p>
         @endif
 
-        <p class="text-sm text-gray-400 italic">
+        <p class="text-sm italic text-gray-400">
             Created: {{ $task->created_at->translatedFormat('d. F Y') }}
         </p>
 
-        <div class="flex justify-between items-center">
+        <div class="flex items-center justify-between">
             <p>
                 Status: 
                 @if ($task->status === "completed")
@@ -28,7 +28,7 @@
             <form action="{{ route('tasks.changeStatus', $task) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <select name="status" id="status" onchange="this.form.submit()">
+                <select class="text-black" name="status" id="status" onchange="this.form.submit()">
                     <option class="text-black" value="in_progress" {{ $task->status === "in_progress" ? 'selected' : ''}}>In progress</option>
                     <option class="text-black" value="completed" {{ $task->status === "completed" ? 'selected' : ''}}>Completed</option>
                     <option class="text-black" value="pending" {{ $task->status === "pending" ? 'selected' : ''}}>Not started</option>
@@ -36,14 +36,14 @@
             </form>
         </div>
 
-        <div class="mt-6 flex gap-4">
+        <div class="flex gap-4 mt-6">
             <a href="{{ route('tasks.index') }}" class="text-blue-400 hover:underline">← Back</a>
             <a href="{{ route('tasks.edit', $task) }}" class="text-green-200 hover:underline">Edit task</a>
 
             <form method="POST" action="{{ route('tasks.destroy', $task) }}">
                 @csrf
                 @method('DELETE')
-                <button class="text-red-400 hover:underline cursor-pointer">Delete</button>
+                <button class="text-red-400 cursor-pointer hover:underline">Delete</button>
             </form>
         </div>
     </div>

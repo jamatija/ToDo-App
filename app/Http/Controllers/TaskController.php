@@ -48,7 +48,8 @@ class TaskController extends Controller
             'description' => ''
         ]);
 
-        $task = Task::create($validated);
+
+        $task = $request->user()->tasks()->create($validated);
 
         return to_route('tasks.show', $task->id);
     }
